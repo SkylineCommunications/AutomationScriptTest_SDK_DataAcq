@@ -20,7 +20,7 @@ on:
 jobs:
 
   CI:
-    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@main
+    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@RegisterOnUpload
     with:
       referenceName: ${{ github.ref_name }}
       runNumber: ${{ github.run_number }}
@@ -45,7 +45,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Skyline DataMiner Deploy Action
-        uses: SkylineCommunications/Skyline-DataMiner-Deploy-Action@v1
+        env:
+          Skyline-deploy-action-namespace: test1
+        uses: SkylineCommunications/Skyline-DataMiner-Deploy-Action/Actions/Dockerfile@RegisterOnUpload
         with:
           # Stage deploy
           stage: Deploy
