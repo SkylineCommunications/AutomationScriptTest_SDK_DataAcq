@@ -1,4 +1,4 @@
-name: DataMiner DeployOnly Automation - GitLab
+name: DataMiner DeployOnly Automation GitLab
 
 # Prerequisite: secret 'DATAMINER_DEPLOY_KEY' necessary on Repository or Organization level.
 # Value is the API-key generated in the DCP Admin app (https://admin.dataminer.services/) as authentication for a certain DataMiner System.
