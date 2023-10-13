@@ -7,7 +7,9 @@ name: DataMiner DeployOnly Automation GitLab
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: []
+    branches:
+      - main
+      - master
     tags:
       - "[0-9]+.[0-9]+.[0-9]+.[0-9]+"
       - "[0-9]+.[0-9]+.[0-9]+.[0-9]+-**"
