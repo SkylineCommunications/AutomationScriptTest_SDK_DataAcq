@@ -1,0 +1,28 @@
+name: TestWorkflow - BetaCPMSupport
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events.
+  push:
+    branches: []
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  testJob:
+    name: Skyline Quality Gate 
+    runs-on: windows-latest
+    outputs:
+      quality: ${{ steps.quality-step.outputs.results}}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Initialize
+        run: |
+          echo "workspace" ${{ github.workspace }}
+
+      - name: Install NuGetChangeVersion
+        run: dotnet tool install Skyline.DataMiner.CICD.Tools.NuGetChangeVersion --global --version 1.0.2-BetaCPMSupport
+
+      - name: Run NuGetChangeVersion
+        run: NuGetChangeVersion --workspace ${{ github.workspace }} --name DataMinerMessageBroker.API --nugetVersion 4.5.6
