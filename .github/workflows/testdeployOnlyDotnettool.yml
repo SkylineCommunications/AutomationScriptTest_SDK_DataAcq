@@ -25,7 +25,7 @@ jobs:
       - name: Find branch
         id: findBranch
         run: |
-          echo "branch=$(git branch --contains ${{ GITHUB_SHA }} -a)" >> $GITHUB_OUTPUT
+          echo "branch=$(git branch --contains ${{ github.sha }} -a)" >> $GITHUB_OUTPUT
         shell: bash 
 
       - name: ShowResult
