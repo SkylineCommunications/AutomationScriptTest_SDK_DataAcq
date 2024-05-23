@@ -14,17 +14,35 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  artifact_creation_registration_test:
+    name: Artifact Registration and Upload
+    if: inputs.referenceType == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
+      
+      - name: Find branch
+        id: findBranch
+        run: |
+          echo "branch=$(git branch --contains tags/${{ inputs.referenceName }})" >> $GITHUB_OUTPUT
+        shell: bash 
 
-  CI:
-    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@fixMissingBranchOnUpload
-    with:
-      referenceName: ${{ github.ref_name }}
-      runNumber: ${{ github.run_number }}
-      referenceType: ${{ github.ref_type }}
-      repository: ${{ github.repository }}
-      owner: ${{ github.repository_owner }}
-      sonarCloudProjectName: SkylineCommunications_AutomationScriptTest_SDK_DataAcq
-    secrets:
-      # The API-key: generated in the DCP Admin app (https://admin.dataminer.services/) as authentication for a certain DataMiner System.
-      api-key: ${{ secrets.DATAMINER_DEPLOY_KEY }}
-      sonarCloudToken: ${{ secrets.SONAR_TOKEN }}
+      - name: ShowResult
+        id: showResult
+        run: echo "${{ steps.findBranch.outputs.branch }}"
+ 
+
+#  CI:
+#    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@fixMissingBranchOnUpload
+#    with:
+#      referenceName: ${{ github.ref_name }}
+#      runNumber: ${{ github.run_number }}
+#      referenceType: ${{ github.ref_type }}
+#      repository: ${{ github.repository }}
+#      owner: ${{ github.repository_owner }}
+#      sonarCloudProjectName: SkylineCommunications_AutomationScriptTest_SDK_DataAcq
+#    secrets:
+#      # The API-key: generated in the DCP Admin app (https://admin.dataminer.services/) as authentication for a certain DataMiner System.
+#      api-key: ${{ secrets.DATAMINER_DEPLOY_KEY }}
+#      sonarCloudToken: ${{ secrets.SONAR_TOKEN }}
