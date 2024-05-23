@@ -22,9 +22,12 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       
-      - name: Prepare repository
-      # Without this, a tag will run in a detached head;
-        run: git checkout "${GITHUB_REF:11}"
+      - name: reattach HEAD to Head Ref
+        run: git checkout "$(echo ${{ github.head_ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
+        if: github.head_ref != ''
+      - name: reattach HEAD to Ref
+        run: git checkout "$(echo ${{ github.ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
+        if: github.head_ref == ''
         
       - name: Find branch
         id: findBranch
