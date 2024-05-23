@@ -16,7 +16,7 @@ on:
 jobs:
   artifact_creation_registration_test:
     name: Artifact Registration and Upload
-    if: inputs.referenceType == 'tag'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
@@ -25,7 +25,7 @@ jobs:
       - name: Find branch
         id: findBranch
         run: |
-          echo "branch=$(git branch --contains tags/${{ inputs.referenceName }})" >> $GITHUB_OUTPUT
+          echo "branch=$(git branch --contains tags/${{ github.ref_type }})" >> $GITHUB_OUTPUT
         shell: bash 
 
       - name: ShowResult
