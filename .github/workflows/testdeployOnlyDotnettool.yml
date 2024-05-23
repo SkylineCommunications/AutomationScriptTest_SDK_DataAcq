@@ -22,6 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       
+      - name: Prepare repository
+      # Without this, a tag will run in a detached head;
+        run: git checkout "${GITHUB_REF:11}"
+        
       - name: Find branch
         id: findBranch
         run: |
