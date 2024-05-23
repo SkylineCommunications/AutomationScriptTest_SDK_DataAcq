@@ -22,17 +22,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
       
-      - name: reattach HEAD to Head Ref
-        run: git checkout "$(echo ${{ github.head_ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
-        if: github.head_ref != ''
-      - name: reattach HEAD to Ref
-        run: git checkout "$(echo ${{ github.ref }} | sed -E 's|refs/[a-zA-Z]+/||')"
-        if: github.head_ref == ''
-        
       - name: Find branch
         id: findBranch
         run: |
-          echo "branch=$(git branch --contains tags/${{ github.ref_name }})" >> $GITHUB_OUTPUT
+          echo "branch=$(git branch --contains tags/${{ github.ref_name }} -a)" >> $GITHUB_OUTPUT
         shell: bash 
 
       - name: ShowResult
