@@ -16,7 +16,7 @@ on:
 jobs:
   artifact_creation_registration_test:
     name: Artifact Registration and Upload
-    if: github.ref_name == 'tag'
+    if: github.ref_type == 'tag'
     runs-on: ubuntu-latest
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
