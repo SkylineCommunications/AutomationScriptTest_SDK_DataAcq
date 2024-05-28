@@ -23,6 +23,9 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Debug Log
+        run: git branch --contains tags/3.0.1.10-b2 -r
+        
       - name: Find branch
         id: findBranch
         run: |
