@@ -12,49 +12,49 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-jobs:
-  artifact_creation_registration:
-    name: Artifact Registration and Upload
-    if: github.ref_type == 'tag'
-    runs-on: ubuntu-latest
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+# jobs:
+#  artifact_creation_registration:
+#    name: Artifact Registration and Upload
+#    if: github.ref_type == 'tag'
+#    runs-on: ubuntu-latest
+#   steps:
+#      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+#      - uses: actions/checkout@v4
+#        with:
+#          fetch-depth: 0
 
-      - name: Debug Log
-        run: git branch --contains tags/${{ github.ref_name }} -r
+#      - name: Debug Log
+#        run: git branch --contains tags/${{ github.ref_name }} -r
         
-      - name: Find branch
-        id: findBranch
-        run: |
-          #!/bin/bash
-          set -e  # Exit immediately if a command exits with a non-zero status.
+ #     - name: Find branch
+ #       id: findBranch
+ #       run: |
+ #         #!/bin/bash
+ #         set -e  # Exit immediately if a command exits with a non-zero status.
           
-          # Capture the branches containing the tag and process them
-          branches="$(git branch --contains tags/${{ github.ref_name }} -r | grep 'origin/' | grep -vE '.*/.*/' | sed 's#origin/##' | paste -sd ",")"
+  #        # Capture the branches containing the tag and process them
+  #        branches="$(git branch --contains tags/${{ github.ref_name }} -r | grep 'origin/' | grep -vE '.*/.*/' | sed 's#origin/##' | paste -sd ",")"
           
-          # Append to GitHub Actions output
-          echo "branch=${branches}" >> $GITHUB_OUTPUT
-        shell: bash 
+  #        # Append to GitHub Actions output
+  #        echo "branch=${branches}" >> $GITHUB_OUTPUT
+  #      shell: bash 
 
-      - name: Target Branch
-        id: showResult
-        run: echo "${{ steps.findBranch.outputs.branch }}"
+   #   - name: Target Branch
+   #     id: showResult
+   #     run: echo "${{ steps.findBranch.outputs.branch }}"
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-#jobs:       
-#  CI:
-#    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@fixMissingBranchOnUpload
-#    with:
-#      referenceName: ${{ github.ref_name }}
-#      runNumber: ${{ github.run_number }}
-#      referenceType: ${{ github.ref_type }}
-#      repository: ${{ github.repository }}
-#      owner: ${{ github.repository_owner }}
-#      sonarCloudProjectName: SkylineCommunications_AutomationScriptTest_SDK_DataAcq
-#    secrets:
-#      # The API-key: generated in the DCP Admin app (https://admin.dataminer.services/) as authentication for a certain DataMiner System.
-#      api-key: ${{ secrets.DATAMINER_DEPLOY_KEY }}
-#      sonarCloudToken: ${{ secrets.SONAR_TOKEN }}
+jobs:       
+  CI:
+    uses: SkylineCommunications/_ReusableWorkflows/.github/workflows/Automation Master Workflow.yml@fixMissingBranchOnUpload
+    with:
+      referenceName: ${{ github.ref_name }}
+      runNumber: ${{ github.run_number }}
+      referenceType: ${{ github.ref_type }}
+      repository: ${{ github.repository }}
+      owner: ${{ github.repository_owner }}
+      sonarCloudProjectName: SkylineCommunications_AutomationScriptTest_SDK_DataAcq
+    secrets:
+      # The API-key: generated in the DCP Admin app (https://admin.dataminer.services/) as authentication for a certain DataMiner System.
+      api-key: ${{ secrets.DATAMINER_DEPLOY_KEY }}
+      sonarCloudToken: ${{ secrets.SONAR_TOKEN }}
